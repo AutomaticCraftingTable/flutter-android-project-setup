@@ -2,8 +2,8 @@
 
 ## Run the application
 
-### Install dependencies
-- Install [nix](https://nixos.org/download/) package manager
+### Dependencies
+Install [nix](https://nixos.org/download/) package manager and enable [flakes](https://wiki.nixos.org/wiki/Flakes)
 
 ### Run the environment
 ```sh
