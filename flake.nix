@@ -27,13 +27,10 @@
           abiVersions = [ "x86_64" ];
 
           includeNDK = false;
-          includeSystemImages = true;
           systemImageTypes = [
             "google_apis"
             "google_apis_playstore"
           ];
-          includeEmulator = true;
-          useGoogleAPIs = true;
           extraLicenses = [
             "android-googletv-license"
             "android-sdk-arm-dbt-license"
@@ -46,7 +43,6 @@
           ];
         };
         androidSdk = androidComposition.androidsdk;
-        emulatorName = "vama_emulator";
       in
       {
         devShell =
@@ -65,7 +61,6 @@
             buildInputs = [
               androidSdk
               flutter
-              qemu_kvm
               gradle
               jdk17
             ];
@@ -85,15 +80,6 @@
               fi
 
               ${flutter} config --android-sdk $ANDROID_HOME --jdk-dir $JAVA_HOME > /dev/null 2>&1
-
-              if [ ! -d "$ANDROID_AVD_HOME/${emulatorName}.avd" ]; then
-                echo "Creating a default AVD..."
-                ${androidSdk}/bin/avdmanager create avd -n ${emulatorName} -k "system-images;android-34;google_apis_playstore;x86_64" -d "pixel_5"
-              fi
-
-              echo "Starting the Android emulator..."
-              ${androidSdk}/bin/emulator -avd ${emulatorName} -no-snapshot -gpu host > /dev/null 2>&1 &
-              disown
             '';
           };
       }
